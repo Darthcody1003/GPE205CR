@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlayerController : Controller
 {
-    public KeyCode moveForwardKey;
-    public KeyCode moveBackwardKey;
-    public KeyCode rotateClockwiseKey;
-    public KeyCode rotateCounterClockwiseKey;
+    public KeyCode MoveForward;
+    public KeyCode MoveBackward;
+    public KeyCode TurnClockwise;
+    public KeyCode TurnCounterClockwise;
+    public KeyCode ShootKey;
+
+   
+
     // Start is called before the first frame update
-    public override void Start()
+   void Start()
     {
         // If we have a GameManager
         if (GameManager.instance != null)
@@ -21,48 +25,58 @@ public class PlayerController : Controller
                 GameManager.instance.players.Add(this);
             }     
         }
-        // Run the Start() function from the parent (base) class
-        base.Start();
+        
     }
 
     // Update is called once per frame
-    public override void Update()
+    void Update()
     {
         // Process our Keyboard Inputs
         ProcessInputs();
-        base.Update();
     }
 
     public override void ProcessInputs()
     {
-        if (Input.GetKey(moveForwardKey))
+        if (Input.GetKey(MoveForward))
         {
             pawn.MoveForward();
         }
 
-        if (Input.GetKey(moveBackwardKey)) 
+        if (Input.GetKey(MoveBackward)) 
         {
             pawn.MoveBackward();
         }
 
-        if (Input.GetKey(rotateClockwiseKey))
+        if (Input.GetKey(TurnClockwise))
         {
-            pawn.RotateClockwise();
+            pawn.TurnClockwise();
         }
 
-        if (Input.GetKey(rotateCounterClockwiseKey))
+        if (Input.GetKey(TurnCounterClockwise))
         {
-            pawn.RotateCounterClockwise();
+            pawn.TurnCounterClockwise();
         }
+
+        if (Input.GetKeyDown(ShootKey))
+        {
+            pawn.Shoot();
+        }
+
+
     }
     public void OnDestroy()
     {
-        // If we have a GameManager
-        if (GameManager.instance != null)
         {
-            // And it tracks the players
-            // Deregister with the GameManager
-            GameManager.instance.players.Remove(this);
+             // If the GameManager exists
+             if(GameManager.instance != null)
+             {
+                // If it's tracking players
+                if (GameManager.instance.players != null)
+                {
+                    // Deregister with the GameManager
+                    GameManager.instance.players.Remove(this);
+                }
+             }
         }
     }
 }
