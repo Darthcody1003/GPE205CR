@@ -16,6 +16,10 @@ public class AIController : Controller
 
     private float lastStateChangeTime;
 
+    public float hearingDistance;
+
+    public float fieldOfView;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -116,5 +120,52 @@ public class AIController : Controller
         currentState = state;
 
         lastStateChangeTime = Time.time;
+    }
+
+    protected bool IsCanHear(GameObject target)
+    {
+        // Get the targets NoiseMaker
+        NoiseMaker noiseMaker = target.GetComponent<NoiseMaker>();
+        // If they dont have one, they cant make noise, so return false
+        if(noiseMaker == null)
+        {
+            return false;
+        }
+        // If they are making 0 noise, they also cant be heard
+        if(noiseMaker.volumeDistance <= 0)
+        {
+            return false;
+        }
+        // If they are making noise, add the volumeDistance in the NoiseMaker to the hearingDistance of this AI
+        float totalDistance = noiseMaker.volumeDistance + hearingDistance;
+        // If the distance between our pawn and target is closer than this. . .
+        if(Vector3.Distance(pawn.transform.position, target.transform.position) <= totalDistance)
+        {
+            // . . . then we can hear the target
+            return true;
+        }
+        else{
+            // Otherwise we are too far away to hear them
+            return false;
+        }
+    }
+
+    protected bool IsCanSee(GameObject target)
+    {
+        // Find the vector from the agent to the target
+        Vector3 agentToTargetVector = target.transform.position - pawn.transform.position;
+        // Find the angle between the direction our agent is facing (forward in local space) and the vector to the target
+        float angleToTarget = Vector3.Angle(agentToTargetVector, pawn.transform.forward);
+        Debug.Log(angleToTarget);
+        // If that angle is less than our field of view
+        if(angleToTarget < fieldOfView)
+        {
+            Debug.Log("In field of view");
+            return true;
+        }
+        else{
+            return false;
+        }
+       
     }
 }

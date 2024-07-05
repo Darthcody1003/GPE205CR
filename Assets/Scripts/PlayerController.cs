@@ -10,6 +10,9 @@ public class PlayerController : Controller
     public KeyCode TurnCounterClockwise;
     public KeyCode ShootKey;
 
+    public float volumeDistance;
+    private NoiseMaker noiseMaker;
+
    
 
     // Start is called before the first frame update
@@ -40,29 +43,38 @@ public class PlayerController : Controller
         if (Input.GetKey(MoveForward))
         {
             pawn.MoveForward();
+            pawn.MakeNoise();
         }
 
         if (Input.GetKey(MoveBackward)) 
         {
             pawn.MoveBackward();
+            pawn.MakeNoise();
         }
 
         if (Input.GetKey(TurnClockwise))
         {
             pawn.TurnClockwise();
+            pawn.MakeNoise();
         }
 
         if (Input.GetKey(TurnCounterClockwise))
         {
             pawn.TurnCounterClockwise();
+            pawn.MakeNoise();
         }
 
         if (Input.GetKeyDown(ShootKey))
         {
             pawn.Shoot();
+            pawn.MakeNoise();
         }
 
-
+        if (!Input.GetKey(MoveForward) && !Input.GetKey(MoveBackward) && !Input.GetKey(TurnClockwise) && !Input.GetKey(TurnCounterClockwise))
+        {
+           pawn.StopNoise();
+        }
+       
     }
     public void OnDestroy()
     {
