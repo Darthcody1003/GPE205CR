@@ -14,10 +14,24 @@ public class GameManager : MonoBehaviour
 
     public List<PlayerController> players;
 
+    public PawnSpawnPoint[] spawnPoints;
+
+    public MapGenerator mapGenerator;
+
     private void Start()
     {
         // Temp code - for now, we spawn the player as soon as the GameManager starts
-        SpawnPlayer();
+        //SpawnPlayer();
+        mapGenerator = GetComponent<MapGenerator>();
+
+        mapGenerator.GenerateMap();
+
+        spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
+
+        foreach(PawnSpawnPoint p in spawnPoints)
+        {
+            Debug.Log(p.gameObject.name);
+        }
     }
 
     // Awake is called when the object is first created - before even Start can run!
@@ -53,6 +67,8 @@ public class GameManager : MonoBehaviour
         newPawnObj.AddComponent<NoiseMaker>();
         newPawn.noiseMaker = newPawnObj.GetComponent<NoiseMaker>();
         newPawn.noiseMakerVolume = 3;
+
+        newPawnObj.AddComponent<PowerupManager>();
 
         // Hook them up!
         newController.pawn = newPawn;
