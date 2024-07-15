@@ -13,6 +13,8 @@ public class PlayerController : Controller
     public float volumeDistance;
     private NoiseMaker noiseMaker;
 
+    public int score = 0;
+
    
 
     // Start is called before the first frame update
@@ -76,6 +78,12 @@ public class PlayerController : Controller
         }
        
     }
+
+    public override void AddToScore(int scoreToAdd)
+    {
+        score += scoreToAdd;
+    }
+    
     public void OnDestroy()
     {
         {

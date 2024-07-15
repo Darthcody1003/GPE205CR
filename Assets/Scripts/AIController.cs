@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class AIController : Controller
 {
-    public enum AIState{Guard, Chase, Flee}
+    public enum AIState{Guard, Chase, Flee, Patrol}
 
     public AIState currentState;
 
     public GameObject target;
+
+    public Transform[] waypoints;
+    public float waypointStopDistance;
 
     public float targetDistance;
 
@@ -20,16 +23,28 @@ public class AIController : Controller
 
     public float fieldOfView;
 
+    private int currentWaypoint = 0;
+
+    public float seeingDistance;
+
     // Start is called before the first frame update
-    void Start()
+   void Start()
     {
         currentState = AIState.Chase;
+
+         //base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+   void Update()
     {
-        // Fall-through is what break eliminates
+        ProcessInputs();
+        //base.Update();
+    }
+
+    public override void ProcessInputs()
+    {
+                // Fall-through is what break eliminates
         switch  (currentState)
         {
             case AIState.Guard:
@@ -56,14 +71,37 @@ public class AIController : Controller
                 ChangeState(AIState.Guard);
             }
             break;
+          
         }
-        
-    }
 
-    public override void ProcessInputs()
-    {
         Debug.Log("Process Inputs");
     }
+
+    protected void Patrol()
+    {
+                // If we have enough waypoints in out list to move to a current waypoint
+        if(waypoints.Length > currentWaypoint)
+        {
+            // Then seek the waypoint
+            Seek(waypoints[currentWaypoint]);
+            // If we are close enough, then increment to the next waypoint
+            if(Vector3.Distance(pawn.transform.position, waypoints[currentWaypoint].position) < waypointStopDistance)
+            {
+                currentWaypoint++;
+            }
+       }
+        else
+       {
+            RestartPatrol();
+        }
+   }
+
+    protected void RestartPatrol()
+    {
+        // Set the index to 0
+        currentWaypoint = 0;
+    }
+    
 
     public void DoGuard()
     {
@@ -73,7 +111,12 @@ public class AIController : Controller
     public void DoChase()
     {
         // Whatever happens in Chase
-        Seek(target.transform.position);
+        Seek(target);
+    }
+
+    public void Seek(Transform targetTransform)
+    {
+        Seek(targetTransform.position);
     }
 
     public void Seek(GameObject target)
@@ -102,6 +145,8 @@ public class AIController : Controller
         Seek(pawn.transform.position + fleeVector);
     }
 
+
+
     // A setup for a transition out of a state
     protected bool IsDistanceLessThan(GameObject target, float distance)
     {
@@ -113,6 +158,11 @@ public class AIController : Controller
         {
             return false;
         }
+    }
+
+    public override void AddToScore(int scoreToAdd)
+    {
+      throw new System.NotImplementedException();
     }
 
     public virtual void ChangeState(AIState state)
@@ -160,12 +210,18 @@ public class AIController : Controller
         // If that angle is less than our field of view
         if(angleToTarget < fieldOfView)
         {
-            Debug.Log("In field of view");
-            return true;
-        }
-        else{
+            RaycastHit hit;
+            if (Physics.Raycast(pawn.transform.position, agentToTargetVector, out hit, seeingDistance))
+            {
+                GameObject hitGameObject = hit.transform.gameObject;
+                if (hitGameObject == target)
+                {
+                    return true;
+                }
+            }
+            
             return false;
         }
-       
+       return false;
     }
 }

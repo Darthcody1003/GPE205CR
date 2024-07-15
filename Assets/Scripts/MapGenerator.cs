@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour
  public float roomWidth = 50.0f;
  public float roomHeight = 50.0f;
  public int mapSeed;
+ public bool usingCurrentTime;
  public bool isMapOfTheDay;
  private Room[,] grid; 
 
@@ -43,9 +44,17 @@ public class MapGenerator : MonoBehaviour
    {
     // Set our seed
     UnityEngine.Random.InitState(mapSeed);
+    if (usingCurrentTime)
+    {
+        UnityEngine.Random.InitState(DateToInt(DateTime.Now));
+    }
+    else if (isMapOfTheDay)
+    {
+        UnityEngine.Random.InitState(DateToInt(DateTime.Now));
+    }
+    grid = new Room[cols, rows];
 
-     // Clear out the grid - "column" is our X, "row" is our Y
-     grid = new Room[cols, rows];
+    
 
      // For each grid row...
      for (int currentRow = 0; currentRow < rows; currentRow++) 

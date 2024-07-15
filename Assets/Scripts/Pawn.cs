@@ -25,6 +25,8 @@ public abstract class Pawn : MonoBehaviour
     public Shooter shooter;
     public NoiseMaker noiseMaker;
 
+    public Controller controller;
+
 
     // Start is called before the first frame update
     public virtual void Start()

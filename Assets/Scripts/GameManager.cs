@@ -8,33 +8,33 @@ public class GameManager : MonoBehaviour
 
     public Transform playerSpawnTransform;
 
+    public Transform playerSpawnPoint;
+
     // Prefabs
     public GameObject playerControllerPrefab;
-    public GameObject tankPawnPrefab;
+    public GameObject playerPawnPrefab;
+
+    // PatrolAI Tank
+    public GameObject patrolAIControllerPrefab;
+
+    public List<AIController> aiControllers;
 
     public List<PlayerController> players;
 
-    public PawnSpawnPoint[] spawnPoints;
+    private PawnSpawnPoint[] foundPawnSpawnPoints;
 
-    public MapGenerator mapGenerator;
+    public MapGenerator MapGenerator;
 
-    private void Start()
-    {
-        // Temp code - for now, we spawn the player as soon as the GameManager starts
-        //SpawnPlayer();
-        mapGenerator = GetComponent<MapGenerator>();
+    // Game States
+    public GameObject TitleScreenStateObject;
+    public GameObject MainMenuStateObject;
+    public GameObject OptionsScreenStateObject;
+    public GameObject CreditsScreenStateObject;
+    public GameObject GameplayStateObject;
+    public GameObject GameOverScreenStateObject;
 
-        mapGenerator.GenerateMap();
 
-        spawnPoints = FindObjectsOfType<PawnSpawnPoint>();
-
-        foreach(PawnSpawnPoint p in spawnPoints)
-        {
-            Debug.Log(p.gameObject.name);
-        }
-    }
-
-    // Awake is called when the object is first created - before even Start can run!
+        // Awake is called when the object is first created - before even Start can run!
     private void Awake()
     {
         // If the instance doesnt exist yet...
@@ -52,25 +52,119 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+       players = new List<PlayerController>();
+       aiControllers = new List<AIController>();
+
+       DeactivateAllStates();
+
+       SpawnPlayer();
+
+       ActivateTitleScreen();
+
+
+    }
+
     public void SpawnPlayer()
     {
+        SpawnPlayer(playerSpawnPoint);
+    }
+
+    public void SpawnPlayer(Transform spawnPosition)
+    {
         // Spawn the Player Controller at (0, 0, 0) with no rotation
-        GameObject newPlayerObj = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        GameObject playerController = Instantiate(playerControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         // Spawn the Pawn and connect it to the Controller
-        GameObject newPawnObj = Instantiate(tankPawnPrefab, playerSpawnTransform.position, playerSpawnTransform.rotation) as GameObject;
+        GameObject playerPawn = Instantiate(playerPawnPrefab, spawnPosition.position, Quaternion.identity) as GameObject;
 
-        // Get the Player Controller component and Pawn component.
-        Controller newController = newPlayerObj.GetComponent<Controller>();
+       playerPawn.AddComponent<NoiseMaker>();
+
+       playerController.GetComponent<Controller>().pawn = playerPawn.GetComponent<Pawn>();
+
+       playerPawn.GetComponent<Pawn>().controller = playerController.GetComponent<Controller>();
+    }
+
+    public void SpawnPatrolAI(PawnSpawnPoint spawnPoint)
+    {
+        // Spawn the AI Controller (0, 0, 0) with no rotation
+        GameObject newAIObj = Instantiate(patrolAIControllerPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+
+        // Spawn the Pawn and connect it to the Controller
+        GameObject newPawnObj = Instantiate(playerPawnPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation) as GameObject;
+
+        // Attach appropriate components and hook AIController to Pawn.
+        Controller newController = newAIObj.GetComponent<Controller>();
         Pawn newPawn = newPawnObj.GetComponent<Pawn>();
-
-        newPawnObj.AddComponent<NoiseMaker>();
-        newPawn.noiseMaker = newPawnObj.GetComponent<NoiseMaker>();
-        newPawn.noiseMakerVolume = 3;
 
         newPawnObj.AddComponent<PowerupManager>();
 
-        // Hook them up!
         newController.pawn = newPawn;
+
+        newAIObj.GetComponent<AIController>().waypoints[0] = spawnPoint.transform;
+        newAIObj.GetComponent<AIController>().waypoints[1] = spawnPoint.nextWaypoint.transform;
+        newAIObj.GetComponent<AIController>().waypoints[2] = spawnPoint.nextWaypoint.nextWaypoint.transform;
+        newAIObj.GetComponent<AIController>().waypoints[3] = spawnPoint.nextWaypoint.nextWaypoint.nextWaypoint.transform;
     }
+
+      private void DeactivateAllStates()
+    {
+        // Deactivate all Game States
+        TitleScreenStateObject.SetActive(false);
+        MainMenuStateObject.SetActive(false);
+        OptionsScreenStateObject.SetActive(false);
+        CreditsScreenStateObject.SetActive(false);
+        GameplayStateObject.SetActive(false);
+        GameOverScreenStateObject.SetActive(false);
+    }
+
+      public void ActivateTitleScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        TitleScreenStateObject.SetActive(true);
+    }
+
+       public void ActivateMainMenu()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        MainMenuStateObject.SetActive(true);
+    }
+
+       public void ActivateOptionsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        OptionsScreenStateObject.SetActive(true);
+    }
+
+       public void ActivateCreditsScreen()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        CreditsScreenStateObject.SetActive(true);
+    }
+
+       public void ActivateGameplay()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        GameplayStateObject.SetActive(true);
+    }
+
+    public void ActivateGameOver()
+    {
+        // Deactivate all states
+        DeactivateAllStates();
+        // Activate the title screen
+        GameOverScreenStateObject.SetActive(true);
+    }
+
 }

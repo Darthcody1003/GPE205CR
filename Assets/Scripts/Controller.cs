@@ -22,4 +22,6 @@ public abstract class Controller : MonoBehaviour
     // Our child classes MUST override the way they process inputs
 
     public abstract void ProcessInputs();
+
+    public abstract void AddToScore(int scoreToAdd);
 }
