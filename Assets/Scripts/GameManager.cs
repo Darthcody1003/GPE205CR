@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     public MapGenerator MapGenerator;
 
+    
+
     // Game States
     public GameObject TitleScreenStateObject;
     public GameObject MainMenuStateObject;
@@ -62,8 +64,6 @@ public class GameManager : MonoBehaviour
        SpawnPlayer();
 
        ActivateTitleScreen();
-
-
     }
 
     public void SpawnPlayer()
@@ -166,5 +166,6 @@ public class GameManager : MonoBehaviour
         // Activate the title screen
         GameOverScreenStateObject.SetActive(true);
     }
+    
 
 }

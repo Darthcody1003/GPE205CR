@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PowerupManager : MonoBehaviour
 {
-    private List<Powerup> removedPowerupQueue;
+    private List<Powerup> removePowerupQueue;
     public List<Powerup> powerups;
 
     // Start is called before the first frame update
    void Start()
     {
          powerups = new List<Powerup>();
+         removePowerupQueue = new List<Powerup>();
     }
 
 
@@ -25,6 +26,8 @@ public class PowerupManager : MonoBehaviour
     {
            // Apply the powerup
         powerupToAdd.Apply(this);
+         // Save it to the list
+        powerups.Add(powerupToAdd);
       
     }
 
@@ -34,23 +37,18 @@ public class PowerupManager : MonoBehaviour
         // Remove the powerup
         powerupToRemove.Remove(this);
         // Add it to the "to be removed queue"
-        removedPowerupQueue.Add(powerupToRemove);
+        removePowerupQueue.Add(powerupToRemove);
     }
 
        private void ApplyRemovePowerupsQueue()
     {
         // Now that we are sure we are not iterating through "powerups", remove the powerups that are in our temporary list
-        foreach (Powerup powerup in removedPowerupQueue) 
+        foreach (Powerup powerup in removePowerupQueue) 
         {
             powerups.Remove(powerup);
         }
         // And reset our temporary list
-        removedPowerupQueue.Clear();
-    }
-
-      private void LateUpdate()
-    {
-        ApplyRemovePowerupsQueue();
+        removePowerupQueue.Clear();
     }
     
 
@@ -68,5 +66,10 @@ public class PowerupManager : MonoBehaviour
             }
        }
    }
+
+      private void LateUpdate()
+    {
+        ApplyRemovePowerupsQueue();
+    }
     
 }

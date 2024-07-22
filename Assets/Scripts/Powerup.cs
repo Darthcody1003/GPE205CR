@@ -16,7 +16,7 @@ public abstract class Powerup : MonoBehaviour
 
     void Start()
     {
-        
+       
     }
     
     void Update()

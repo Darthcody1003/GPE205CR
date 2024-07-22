@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TankShooter : Shooter
+
 {
+    //public AudioClip TankShot;
+    //AudioSource source1;
     public Transform firepointTransform;
 
     // Start is called before the first frame update
@@ -25,6 +28,9 @@ public class TankShooter : Shooter
 
         //Get the DamageOnHit component
         DamageOnHit doh = newShell.GetComponent<DamageOnHit>();
+
+         // Play noise 
+       // source1.PlayOneShot(TankShot);
 
         // If it exists
         if (doh != null)

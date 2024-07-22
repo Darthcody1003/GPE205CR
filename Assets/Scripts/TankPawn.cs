@@ -82,8 +82,15 @@ public class TankPawn : Pawn
     {
       if(Time.time >= nextEventTime)
       {
-        shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifespan);
-        nextEventTime = Time.time + timerDelay;
+        if (shooter != null)
+        {
+           shooter.Shoot(shellPrefab, fireForce, damageDone, shellLifespan);
+           nextEventTime = Time.time + timerDelay;
+        }
+        else
+        {
+          Debug.Log("Warning: No shooter in TankPawn.Shoot()!");
+        }
       }
     }
 

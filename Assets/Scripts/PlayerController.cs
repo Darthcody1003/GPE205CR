@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerController : Controller
 {
@@ -9,17 +11,25 @@ public class PlayerController : Controller
     public KeyCode TurnClockwise;
     public KeyCode TurnCounterClockwise;
     public KeyCode ShootKey;
+    public Text score;
+    public float scoreCounter;
+     public Text lives;
+    public float livesCounter;
+    public float startingLives;
 
     public float volumeDistance;
     private NoiseMaker noiseMaker;
 
-    public int score = 0;
+    
 
    
 
     // Start is called before the first frame update
    void Start()
     {
+        scoreCounter = 0;
+        livesCounter = startingLives;
+
         // If we have a GameManager
         if (GameManager.instance != null)
         {
@@ -38,7 +48,25 @@ public class PlayerController : Controller
     {
         // Process our Keyboard Inputs
         ProcessInputs();
+
+        if (score != null)
+        {
+            score.text = "Score: " + scoreCounter;
+        }
+
+        if (lives != null)
+        {
+            lives.text = "Lives: " + livesCounter;
+        }
+
     }
+
+    public void SubtractLives(Pawn pawn)
+    {
+        livesCounter = startingLives = 1;
+    }
+
+  
 
     public override void ProcessInputs()
     {
@@ -81,8 +109,23 @@ public class PlayerController : Controller
 
     public override void AddToScore(int scoreToAdd)
     {
-        score += scoreToAdd;
+        scoreCounter += scoreToAdd;
     }
+
+    public void Death()
+    {
+        if(pawn == null)
+        {
+            SubtractLives(pawn);
+            if(livesCounter > 0)
+            {
+                Destroy(gameObject);
+                FindObjectOfType<GameManager>().SpawnPlayer();
+            }
+        }
+    }
+
+
     
     public void OnDestroy()
     {

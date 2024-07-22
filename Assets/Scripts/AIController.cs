@@ -5,52 +5,41 @@ using UnityEngine;
 public class AIController : Controller
 {
     public enum AIState{Guard, Chase, Flee, Patrol}
-
     public AIState currentState;
-
     public GameObject target;
-
     public Transform[] waypoints;
     public float waypointStopDistance;
-
     public float targetDistance;
-
     public float fleeDistance;
-
     private float lastStateChangeTime;
-
     public float hearingDistance;
-
     public float fieldOfView;
-
     private int currentWaypoint = 0;
-
     public float seeingDistance;
 
     // Start is called before the first frame update
    void Start()
     {
         currentState = AIState.Chase;
-
-         //base.Start();
     }
 
     // Update is called once per frame
    void Update()
     {
         ProcessInputs();
-        //base.Update();
+        
     }
 
     public override void ProcessInputs()
     {
+        if (pawn != null || target != null)
                 // Fall-through is what break eliminates
         switch  (currentState)
         {
             case AIState.Guard:
             // Instructions for our Guard State
             DoGuard();
-            if (IsDistanceLessThan(target, targetDistance))
+            if (IsDistanceMoreThan(target, targetDistance))
             {
                 ChangeState(AIState.Flee);
             }
@@ -58,7 +47,7 @@ public class AIController : Controller
             case AIState.Chase:
             // Instructions for our Chase State
             DoChase();
-            if (!IsDistanceLessThan(target, targetDistance))
+            if (!IsCanSee(target))
             {
                 ChangeState(AIState.Guard);
             }
@@ -157,6 +146,18 @@ public class AIController : Controller
         else 
         {
             return false;
+        }
+    }
+
+      protected bool IsDistanceMoreThan(GameObject target, float distance)
+    {
+          if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance ) 
+        {
+            return false;
+        }
+        else 
+        {
+            return true;
         }
     }
 

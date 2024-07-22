@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class HealthPowerup : Powerup
 {
-    public float healthToAdd;
+    public float healthToAdd = 5;
+
   public override void Apply(PowerupManager target)
     {
         // Apply Health changes
@@ -19,6 +20,11 @@ public class HealthPowerup : Powerup
 
     public override void Remove(PowerupManager target)
     {
-        // TODO: Remove Health changes
+        // Remove changes to our Health
+        Health targetHealth = target.GetComponent<Health>();
+        if (targetHealth != null)
+        {
+            targetHealth.TakeDamage(healthToAdd, target.GetComponent<Pawn>());
+        }
     }
 }

@@ -23,7 +23,7 @@ public class DamageOnHit : MonoBehaviour
     {
 
         // Get the Health Component of the other game object
-        Health otherHealth = other.GetComponent<Health>();
+        Health otherHealth = other.gameObject.GetComponent<Health>();
 
         //Only do damage if the health component exists
         if (otherHealth != null)

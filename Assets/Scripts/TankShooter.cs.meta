@@ -3,7 +3,9 @@ guid: f4086ae9d3d527243bad70db936eceac
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - TankShot: {fileID: 8300000, guid: 28a6e0462b414714d8da0f64cf5afb85, type: 3}
+  - firepointTransform: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

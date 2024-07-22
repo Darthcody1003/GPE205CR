@@ -8,17 +8,22 @@ public class Health : MonoBehaviour
 
     public float currentHealth;
     public float maxHealth;
+    public Image healthBar;
+    
+    
+    
 
     // Start is called before the first frame update
     void Start()
     {
+
         currentHealth = maxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        healthBar.fillAmount = currentHealth / 6;
     }
 
     public void TakeDamage(float amount, Pawn source)

@@ -50,5 +50,9 @@ MonoBehaviour:
   TurnClockwise: 100
   TurnCounterClockwise: 97
   ShootKey: 32
-  volumeDistance: 0
-  Score: 0
+  score: {fileID: 0}
+  scoreCounter: 0
+  lives: {fileID: 0}
+  livesCounter: 0
+  startingLives: 3
+  volumeDistance: 2
