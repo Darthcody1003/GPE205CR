@@ -1,0 +1,49 @@
+/* 
+declaration block:
+selector{
+property: value;
+property2: value;
+}
+ */
+
+
+ body
+ {
+    background-color: rgb(3, 66, 16);
+    color:rgb(255, 255, 255);
+    text-align: center;
+    line-height: 110px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-style: italic;
+ }
+
+ button
+ {
+    background-color: rgb(255, 0, 0);
+    color: white;
+    font-style: italic;
+    height: 50px;
+    width: 100px;   
+    border-radius: 120px;
+    font-size: 20px;
+ }
+
+ nav
+ {
+    height: 600px;
+    width: 200px;
+    float: left;
+    padding: 5px;
+    line-height: 30px;
+ }
+
+ footer
+ {
+    text-align: center;
+    margin-right: 200px;
+ }
+
+ h1
+ {
+    text-align: center;
+ }
