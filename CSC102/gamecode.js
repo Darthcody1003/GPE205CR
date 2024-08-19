@@ -11,6 +11,7 @@ function rollDice() {
     document.getElementById("dice1").innerHTML = dice1;
     document.getElementById("dice2").innerHTML = dice2;
     document.getElementById("sum").innerHTML = sum;
+    //Win conditions
     if (sum == 7 || sum == 11) {
         document.getElementById("result").innerHTML = "L";
     } else if (sum == 2 || sum == 3 || sum == 12) {
@@ -18,4 +19,9 @@ function rollDice() {
     } else {
         document.getElementById("result").innerHTML = "Re-roll";
     }
+}
+
+function playAudio(){
+    var audio = document.getElementById("PokerChips");
+    audio.play();
 }

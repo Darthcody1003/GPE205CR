@@ -1,12 +1,6 @@
-/* 
-declaration block:
-selector{
-property: value;
-property2: value;
-}
- */
 
 
+/*body mods*/
  body
  {
     background-color: rgb(3, 66, 16);
@@ -17,6 +11,7 @@ property2: value;
     font-style: italic;
  }
 
+ /*button mods*/
  button
  {
     background-color: rgb(255, 0, 0);
@@ -28,6 +23,7 @@ property2: value;
     font-size: 20px;
  }
 
+ /*nav mods*/
  nav
  {
     height: 600px;
@@ -36,13 +32,15 @@ property2: value;
     padding: 5px;
     line-height: 30px;
  }
-
+ 
+ /*footer mods*/
  footer
  {
     text-align: center;
     margin-right: 200px;
  }
-
+ 
+ /*heading mods*/
  h1
  {
     text-align: center;

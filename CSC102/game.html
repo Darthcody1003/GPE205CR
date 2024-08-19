@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRAPS</title>
+    <!--Link to stylesheet-->
     <link rel="stylesheet" href="gamestylesheet.css">
 </head>
 <body>
     <h1>CRAPS</h1>
-    <button onclick="rollDice()">Roll Dice</button>
+    <button onclick="rollDice(), playAudio()" >Roll Dice</button>
+    <audio id="PokerChips">
+        <source src="PokerChips.mp3" type="audio/mpeg">
+    </audio>
     <div id="dice1"></div>
     <div id="dice2"></div>
     <div id="sum"></div>
     <h2 id="result"></h2>
+    <!--Link to js script-->
     <script src="gamecode.js">
     </script>
 </body>

@@ -1,0 +1,30 @@
+<!--Cody Rios-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input</title>
+    <link type="text/css" rel="stylesheet" href="userinputstyle.css">
+    <script src="userinputj.js"></script>
+</head>
+<body>
+    <!--Input field for name and zip code-->
+    First Name<br> <input id="firstName" type="text" name="firstName" placeholder="Enter your first name"required>
+    <br>
+    <br>
+    Last Name<br>  <input id="lastName" type="text" name="lastName"placeholder="Enter your last name" required>
+    <br>
+    <br>    
+    Zip Code<br> <input id="zip" type="text" name="zip"placeholder="Enter your 5 digit zipcode" required>
+    <br>
+    <br>  
+   <!--validation button-->
+    <button onclick="validate()">Validate</button>
+    <br>
+    <!-- uses getelementbyID to display a hidden message -->
+     <br>
+    <div id="result"></div>
+
+</body>
+</html>
